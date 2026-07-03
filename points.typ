@@ -22,8 +22,10 @@
   __display-points(p)
 }
 
-#let points(p) = context {
-  h(1fr)
+#let points(p, spacing: true) = context {
+  if spacing {
+    h(1fr)
+  }
   let depth = counter(heading).get()
   let points = if p == auto {
     let last-heading = query(metadata)

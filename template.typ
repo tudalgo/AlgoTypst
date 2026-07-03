@@ -1,30 +1,10 @@
-#import "@preview/athena-tu-darmstadt-exercise:0.2.0": text-roboto, tuda-section, tuda_colors, tudaexercise
+#import "@preview/athena-tu-darmstadt-exercise:0.3.0": text-roboto, tuda-section, tuda_colors, tudaexercise
 #import "@preview/codly:1.3.0": codly, codly-init
 #import "@preview/fontawesome:0.6.0": fa-code
 #import "@preview/cetz:0.5.2" as cetz
 
 #import "points.typ": *
-
-#let info-box(title: none, fill: true, body) = context {
-  let design = state("tud_design").get()
-  let background = color.mix((rgb(tuda_colors.at("3b")), 30%), (design.background_color, 70%))
-  rect(
-    fill: if fill { background },
-    // inset: 1em,
-    inset: (
-      left: 8pt,
-      y: 2mm,
-    ),
-    radius: 3pt,
-    width: 100%,
-    stroke: (left: 5pt + rgb(tuda_colors.at("3b"))),
-    [
-      #if title != none [#text-roboto(strong(title)) \ ]
-
-      #body
-    ],
-  )
-}
+#import "boxes.typ": algo-green-box
 
 #let template(
   draft: "draft" in sys.inputs,
@@ -42,16 +22,16 @@
     darkmode: darkmode,
   ))
 
-  set page(background: align(center + horizon, rotate(
+  set page(background: if draft {align(center + horizon, rotate(
     -60deg,
     text(size: 160pt, "ENTWURF", fill: red.transparentize(90%), font: "Roboto", weight: "bold", tracking: 4pt),
     reflow: true,
-  )))
+  ))})
 
-  let format-sheetnumber(x) = if x < 10 {
-    "0" + str(x)
+  let sheet-str = if sheet < 10 {
+    "0" + str(sheet)
   } else {
-    x
+    sheet
   }
 
   let term = if submission.month() > 4 {
@@ -61,10 +41,11 @@
   }
 
   show: tudaexercise.with(
-    language: "ger",
+    language: "de",
     info: (
-      title: "Übungsblatt " + format-sheetnumber(sheet),
-      author: "Prof. Karsten Weihe",
+      title: "Übungsblatt " + sheet-str,
+      subtitle: "Prof. Karsten Weihe",
+      author: authors.join(",", last: " und "),
       sheet: sheet,
     ),
     logo: image("assets/tuda_logo.svg"),
@@ -73,8 +54,10 @@
       darkmode: darkmode,
       colorback: false,
     ),
-    task-prefix: "H",
-    title-sub: table(
+    task-prefix: "H" + str(sheet) + ".",
+    task-prefix-subtasks: true,
+    task-separator: ":",
+    info-layout: table(
       inset: (y: 2pt, x: 0pt),
       columns: (1fr, 1fr),
       align: (left, right),
@@ -85,14 +68,13 @@
       [Relevante Foliensätze:], slidesets,
       [Abgabe der Hausübung:], [bis #submission.display("[day].[month padding:zero].[year]"), 23:50 Uhr],
     ),
+    headline: text(font: "Roboto", size: 10pt)[*FOP* im *Wintersemester #term* bei *Prof. Karsten Weihe* #h(1fr) *Übungsblatt #sheet-str* -- #topic],
   )
 
-  set raw(theme: "assets/Lazy.tmTheme")
-  show raw: set text(spacing: 100%)
-  set text(lang: "de")
   show link: it => emph(text(fill: blue, it))
   set list(indent: 1em, spacing: 1.2em)
   set enum(indent: 1em, spacing: 1.2em)
+  set heading(numbering: "1.1", supplement: [Aufgabe])
 
   codly(
     // fill: luma(240),
@@ -125,9 +107,17 @@
   show: codly-init.with()
 
   tuda-section[
-    #text-roboto[Hausübung #format-sheetnumber(sheet) #h(1fr) Gesamt: #sum-points()] \
+    #text-roboto[Hausübung #sheet-str #h(1fr) Gesamt: #sum-points()] \
     #text(font: "XCharter")[_Erste Schritte mit Java & FopBot_]
   ]
+
+  algo-green-box(title: [Beachten Sie die Seite #link("https://moodle.informatik.tu-darmstadt.de/mod/page/view.php?id=68765")[Verbindliche Anforderungen für alle Abgaben] im Moodle-Kurs.])[
+    Verstöße gegen verbindliche Anforderungen führen zu Punktabzügen und können die korrekte Bewertung Ihrer Abgabe beeinflussen. Sofern vorhanden, müssen die in der Vorlage mit `TODO` markierten `crash`-Aufrufe entfernt werden. Andernfalls wird die jeweilige Aufgabe nicht bewertet.
+  ]
+  
+  [Die für diese Hausübung relevanten Verzeichnisse sind #raw("src/main/java/h" + sheet-str) und ggf. #raw("src/test/java/h" + sheet-str)]
+
+  set raw(theme: "assets/Lazy.tmTheme")
 
   body
 }
