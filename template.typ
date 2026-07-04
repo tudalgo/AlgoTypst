@@ -31,7 +31,7 @@
   let sheet-str = if sheet < 10 {
     "0" + str(sheet)
   } else {
-    sheet
+    str(sheet)
   }
 
   let term = if submission.month() > 4 {
@@ -75,6 +75,15 @@
   set list(indent: 1em, spacing: 1.2em)
   set enum(indent: 1em, spacing: 1.2em)
   set heading(numbering: "1.1", supplement: [Aufgabe])
+  show ref: set text(fill: blue)
+  show ref: it => {
+    if it.element.func() == heading {
+      let counter = counter(heading).at(it.element.location())
+      [Aufgabe H#sheet.#numbering(it.element.numbering, ..counter)]
+    } else {
+      it
+    }
+  }
 
   codly(
     // fill: luma(240),
@@ -117,7 +126,7 @@
   
   [Die für diese Hausübung relevanten Verzeichnisse sind #raw("src/main/java/h" + sheet-str) und ggf. #raw("src/test/java/h" + sheet-str)]
 
-  set raw(theme: "assets/Lazy.tmTheme")
+  set raw(theme: "assets/Lazy.tmTheme", lang: "java")
 
   body
 }
