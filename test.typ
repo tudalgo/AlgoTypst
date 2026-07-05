@@ -1,4 +1,4 @@
-#import "lib.typ": template, points
+#import "lib.typ": template, points, javadoc
 #import "boxes.typ": *
 #import "fopbot.typ" as fopbot
 
@@ -48,3 +48,9 @@
   fopbot.hwall(3,3)
   fopbot.coins(3,2, 2)
 })
+
+#javadoc("java.lang.String#<init>(byte[])")
+#javadoc("java.util.", full: true)
+#javadoc("java.util.Comparator#compare(T,T)", title: "Comparator<T>")
+#javadoc("java.util.Map.Entry#copyOf(java.util.Map.Entry)", title: "Map.Entry<K,V>", element_title: "copyOf(Map.Entry<K,V>)")
+#javadoc("java.lang.Integer#MAX_VALUE")
