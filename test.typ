@@ -1,6 +1,4 @@
-#import "lib.typ": template, points, javadoc
-#import "boxes.typ": *
-#import "fopbot.typ" as fopbot
+#import "lib/lib.typ": *
 
 #show: template.with(
   sheet: 0,
