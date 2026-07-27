@@ -38,8 +38,8 @@
 }
 
 #let plural-box(singular, plural, basis) = {
-  (it) => {
-    let title = if type(it) == content and __is-list-content(it) {
+  (it, force: false) => {
+    let title = if type(it) == content and __is-list-content(it) or force {
       plural
     } else {
       singular

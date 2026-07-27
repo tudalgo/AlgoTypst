@@ -5,6 +5,7 @@
 
 #import "points.typ": *
 #import "boxes.typ": algo-green-box
+#import "snippets.typ": requirement-exercise-intro
 
 #let template(
   draft: "draft" in sys.inputs,
@@ -15,6 +16,7 @@
   topic: [],
   slidesets: [],
   submission: datetime.today(),
+  links: (:),
   body,
 ) = {
   state("algotypst").update(c => (
@@ -120,11 +122,11 @@
     #text(font: "XCharter")[_Erste Schritte mit Java & FopBot_]
   ]
 
-  algo-green-box(title: [Beachten Sie die Seite #link("https://moodle.informatik.tu-darmstadt.de/mod/page/view.php?id=68765")[Verbindliche Anforderungen für alle Abgaben] im Moodle-Kurs.])[
-    Verstöße gegen verbindliche Anforderungen führen zu Punktabzügen und können die korrekte Bewertung Ihrer Abgabe beeinflussen. Sofern vorhanden, müssen die in der Vorlage mit `TODO` markierten `crash`-Aufrufe entfernt werden. Andernfalls wird die jeweilige Aufgabe nicht bewertet.
-  ]
-  
-  [Die für diese Hausübung relevanten Verzeichnisse sind #raw("src/main/java/h" + sheet-str) und ggf. #raw("src/test/java/h" + sheet-str)]
+  requirement-exercise-intro(if "verbindliche_anforderungen" in links {
+    links.at("verbindliche_anforderungen")
+  } else {
+    "https://wiki.tudalgo.org/exercises/edit/#musterlosung-und-private-tests" // fallback link for idk
+  }, sheet-str)
 
   set raw(theme: "/assets/Lazy.tmTheme", lang: "java")
 
