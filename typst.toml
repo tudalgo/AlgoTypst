@@ -1,7 +1,7 @@
 [package]
 name = "AlgoTypst"
 version = "0.1.0"
-entrypoint = "lib.typ"
+entrypoint = "lib/lib.typ"
 authors = ["tudalgo"]
 license = "GPL-2.0"
 description = "Allgemeine Vorlage der TUDAlgo"
