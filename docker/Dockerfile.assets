@@ -1,0 +1,20 @@
+# Use from root folder
+
+FROM debian:trixie-slim AS build
+
+ARG CTAN_MIRROR
+ARG PDF_URL
+ARG FONT_AWESOME_VERSION
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates curl pdf2svg unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /work
+
+COPY docker/fetch-logo.sh docker/fetch-fonts.sh ./
+RUN sh fetch-logo.sh out
+RUN sh fetch-fonts.sh out/fonts
+
+FROM scratch
+COPY --from=build /work/out /

@@ -26,7 +26,7 @@ copy_dest_dir = pathlib.Path(copy_dest_dir) / package["package"]["name"] / packa
 if __name__ == "__main__":
     copy_dest_dir.mkdir(parents=True,exist_ok=True)
     shutil.copytree(root / "assets", copy_dest_dir / "assets", ignore=shutil.ignore_patterns(".gitignore"))
-    shutil.copytree(root / "lib", copy_dest_dir / "lib", ignore=shutil.ignore_patterns(".gitignore"))
+    shutil.copytree(root / "lib", copy_dest_dir / "lib")
     shutil.copy2(root / "LICENSE", copy_dest_dir)
     shutil.copy2(root / "typst.toml", copy_dest_dir)
 

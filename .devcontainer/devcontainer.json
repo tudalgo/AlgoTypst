@@ -1,0 +1,15 @@
+{
+  "name": "AlgoTypst",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "ALGOTYPST_REF": "main"
+    }
+  },
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": ["myriad-dreamin.tinymist"]
+    }
+  }
+}
