@@ -3,7 +3,8 @@
 #show: template.with(
   sheet: 0,
   authors: ("Per Göttlicher", "Daniel Mangold"),
-  topic: [Erste Schritte mit Java & FopBot],
+  topic: [Einrichtung und erstes Programm],
+  title: [Erste Schritte mit Java & FopBot],
   draft: true,
   darkmode: true,
 )
@@ -16,7 +17,7 @@
 
 - `Fopbot.move()` #points(1)
 - `Fopbot.turnLeft()` #points(1)
-- `Fopbot.putCoin()` #points(1)
+- `Fopbot.putCoin()` #points(1) #footnote[https://fop.de]
 
 #pagebreak()
 
@@ -52,3 +53,9 @@
 #javadoc("java.util.Comparator#compare(T,T)", title: "Comparator<T>")
 #javadoc("java.util.Map.Entry#copyOf(java.util.Map.Entry)", title: "Map.Entry<K,V>", element_title: "copyOf(Map.Entry<K,V>)")
 #javadoc("java.lang.Integer#MAX_VALUE")
+
+#lorem(50)
+
+#figure([], caption: [Abc])
+
+#footnote[Abc]

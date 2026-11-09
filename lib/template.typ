@@ -14,21 +14,26 @@
   authors: (),
   version: [v1.0],
   topic: [],
+  title: [],
   slidesets: [],
   submission: datetime.today(),
   links: (:),
   body,
 ) = {
+  let authors = if type(authors) != array { (authors,) } else { authors }
   state("algotypst").update(c => (
     draft: draft,
     darkmode: darkmode,
   ))
 
-  set page(background: if draft {align(center + horizon, rotate(
+  // placed here due to footnotes
+  show link: it => emph(text(fill: blue, it))
+
+  set page(background: align(center + horizon, rotate(
     -60deg,
     text(size: 160pt, "ENTWURF", fill: red.transparentize(90%), font: "Roboto", weight: "bold", tracking: 4pt),
     reflow: true,
-  ))})
+  ))) if draft
 
   let sheet-str = if sheet < 10 {
     "0" + str(sheet)
@@ -47,7 +52,7 @@
     info: (
       title: "Übungsblatt " + sheet-str,
       subtitle: "Prof. Karsten Weihe",
-      author: authors.join(",", last: " und "),
+      author: authors.join(", ", last: " und "),
       sheet: sheet,
     ),
     logo: image("/assets/tuda_logo.svg"),
@@ -70,14 +75,16 @@
       [Relevante Foliensätze:], slidesets,
       [Abgabe der Hausübung:], [bis #submission.display("[day].[month padding:zero].[year]"), 23:50 Uhr],
     ),
-    headline: text(font: "Roboto", size: 10pt)[*FOP* im *Wintersemester #term* bei *Prof. Karsten Weihe* #h(1fr) *Übungsblatt #sheet-str* -- #topic],
+    headline: text(font: "Roboto", size: 10pt)[*FOP* im *Wintersemester #term* bei *Prof. Karsten Weihe* #h(1fr) *Übungsblatt #sheet-str* -- #title],
   )
 
-  show link: it => emph(text(fill: blue, it))
+  show figure.caption: set text(font: "Roboto")
+  show footnote: it => text(fill: blue, it)
   set list(indent: 1em, spacing: 1.2em)
   set enum(indent: 1em, spacing: 1.2em)
   set heading(numbering: "1.1", supplement: [Aufgabe])
   show ref: set text(fill: blue)
+  // hack: tudaexercise does not support custom numbering refs yet
   show ref: it => {
     if it.element.func() == heading {
       let counter = counter(heading).at(it.element.location())
@@ -119,7 +126,7 @@
 
   tuda-section[
     #text-roboto[Hausübung #sheet-str #h(1fr) Gesamt: #sum-points()] \
-    #text(font: "XCharter")[_Erste Schritte mit Java & FopBot_]
+    #text(font: "XCharter", emph(title))
   ]
 
   requirement-exercise-intro(if "verbindliche_anforderungen" in links {
